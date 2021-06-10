@@ -18,7 +18,7 @@ public class Webhook {
 
 	@PostMapping(path = "/webhook")
 	public String webhook(@RequestBody String req) {
-		System.out.println(" Message received: " + req);
+		System.out.println("chatbot-client : Message received: " + req);
 		
 		Message message = ChatUtil.getMessage(MESSAGE_ID, ROOM_ID); 
 		
