@@ -48,7 +48,7 @@ public class Webhook {
 		
 		log.trace("Replay back to sender with message : " + processWebhookMessage);
 		
-		Message sendMessage = ChatUtil.sendMessage("Prefix: " + message.getText(), req.getData().getRoomId());
+		Message sendMessage = ChatUtil.sendMessage(processWebhookMessage, req.getData().getRoomId());
 		
 		log.info("Message sent " + sendMessage.getId() );
 		

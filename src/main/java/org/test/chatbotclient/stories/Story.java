@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class Story {
 	
 	public String getGreetingMessage() {
-		return "Are you interested to watch one of the 'America got talent show'?";
+		return "Are you interested to watch 'famous Tom & Jerry Cartoon'?";
 	}
 	
 	public String getAffirmMessge(String text) {
@@ -14,11 +14,11 @@ public class Story {
 		String message = text.trim().toLowerCase();
 		
 		if (message.equals("yes") || message.equals("1") || message.equals("y")) {
-			return "www.youtube.com";
+			return "Here you go! https://www.youtube.com/watch?v=cqyziA30whE";
 		}
 		
 		if (message.equals("no")  || message.equals("0") || message.equals("n") ) {
-			return "That's fine. Have a good day";
+			return "That's Okay. Is there anything I can help you on?";
 		}
 		
 		return "";
