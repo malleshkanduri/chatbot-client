@@ -2,6 +2,7 @@ package org.test.chatbotclient.webhook;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.test.chatbotclient.chat.ChatUtil;
 import org.test.chatbotclient.model.WebhookMessage;
+import org.test.chatbotclient.service.WebhookMessageProcessor;
 
 import com.ciscospark.Message;
 
@@ -21,7 +23,8 @@ public class Webhook {
 	@Value("${webexteams.bot.personId}")
 	String BOT_PERSON_ID;
 	
-	
+	@Autowired
+	WebhookMessageProcessor webhookMessageProcessor;
 
 	@PostMapping(path = "/webhook")
 	public String webhook(@RequestBody WebhookMessage req) {
@@ -36,9 +39,14 @@ public class Webhook {
 		
 		Message message = ChatUtil.getMessage(req.getData().getId()); 
 		
+		
 		log.info("Webhook Message Details : " + message.getText()  + ", MessageId: " + message.getId());
 		
-		log.trace("Replay back to sender");
+		log.trace("processing webhook message");
+		
+		String processWebhookMessage = webhookMessageProcessor.processWebhookMessage(message.getText());
+		
+		log.trace("Replay back to sender with message : " + processWebhookMessage);
 		
 		Message sendMessage = ChatUtil.sendMessage("Prefix: " + message.getText(), req.getData().getRoomId());
 		
@@ -47,7 +55,9 @@ public class Webhook {
 		return "PostCall"; 
 	}
 	
- 	@GetMapping(path = "/webhook")
+
+
+	@GetMapping(path = "/webhook")
  	public String getwebhook() {
 		log.info("getInside");
 		return "GetCall";
