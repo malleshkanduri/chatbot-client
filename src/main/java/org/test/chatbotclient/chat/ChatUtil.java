@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ciscospark.Message;
+import com.ciscospark.Person;
 import com.ciscospark.RequestBuilder;
 import com.ciscospark.Spark;
 import com.ciscospark.Webhook;
@@ -71,5 +72,16 @@ public class ChatUtil {
 		Message post = spark.messages().path("/" + messageId).get();
 
 		return post;
+	}
+
+
+	public static Person getPersonDetails(String personId) {
+		Person person = spark.people().path("/"+personId).get();
+		return person;
+	}
+	
+	public static String getFirstAndLastName(String personId) {
+		Person person = spark.people().path("/"+personId).get();
+		return person.getFirstName() + " " + person.getLastName();
 	}
 }

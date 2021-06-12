@@ -14,6 +14,7 @@ import org.test.chatbotclient.model.WebhookMessage;
 import org.test.chatbotclient.service.WebhookMessageProcessor;
 
 import com.ciscospark.Message;
+import com.ciscospark.Person;
 
 @RestController
 public class Webhook {
@@ -36,6 +37,10 @@ public class Webhook {
 		}
 		
 		log.trace("get message details for messageID " + req.getData().getId());
+		
+		String firstAndLastName = ChatUtil.getFirstAndLastName(req.getData().getPersonId());
+		
+		log.info("Person First/Last Name:::  " + firstAndLastName);
 		
 		Message message = ChatUtil.getMessage(req.getData().getId()); 
 		
