@@ -5,7 +5,14 @@ public class WebhookDataObject {
 	public String roomId;
 	public String personId;
 	public String creatorId;
+	public String type;
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getCreatorId() {
 		return creatorId;
 	}
@@ -30,10 +37,10 @@ public class WebhookDataObject {
 	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
+	
 	@Override
 	public String toString() {
 		return "WebhookDataObject [id=" + id + ", roomId=" + roomId + ", personId=" + personId + ", creatorId="
-				+ creatorId + "]";
+				+ creatorId + ", type=" + type + "]";
 	}
- 
 }

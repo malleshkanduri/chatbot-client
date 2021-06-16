@@ -24,24 +24,31 @@ public class WebhookMessageProcessor {
 	
  	public void processWebhookMessage(WebhookMessage message) {
  		
+ 		log.info("Processing Message : " + message);
+ 		
  		String resourceType = message.getResource();
-		
-		
-		if (resourceType.equals("memberships") ) {
-			if (message.getData().getPersonId().equals(BOT_PERSON_ID)) {
-				log.info("Ignore SELF messages");
-				return;
-			}
-			String botQuestion = story.getBotQuestion(ChatUtil.getFirstAndLastName(message.getData().getCreatorId()));
-			sendMessageToRoom(message.getData().getRoomId(), botQuestion);
+
+ 		// Do nothing for resource types other than Rooms and Messages.
+		if (! (resourceType.equals("rooms") || resourceType.equals("messages"))) {
+			log.error("Unexpected Resource Type :" + resourceType + ". Expecting Resoure types of Rooms/Messages.Skipping this message" + message);
 			return;
-		} 
+		}
+		// Respond to Direct rooms. Don't respond to rooms with a group.
+		if (resourceType.equals("rooms")) { 
+				if (message.getData().getType().equals("direct") 
+						&& message.getCreatedBy().equals(BOT_PERSON_ID)) {
+					 	// Bot added to room. send initial message;
+						String botQuestion = story.getBotQuestion(ChatUtil.getFirstAndLastName(message.getData().getCreatorId()));
+						sendMessageToRoom(message.getData().getId(), botQuestion);
+						return;
+				} else {
+					log.error("This is not 1 on 1 room. Ignoring this message" + message);
+					return;
+				}
+		}
 		
-		if (! message.getResource().equals("messages")) {
-			log.error("Unexpected event type " + resourceType + ". Expecting event type Messages.Skipping this message");
-			return ;
-		} 
-		
+		// Ignore messages sent by Bot. Webhook triggers for every message sent to room, it don't care message sent by user or bot.
+		// This check is to ignore all the message bot sent to user/room.
 		if (message.getData().getPersonId().equals(BOT_PERSON_ID)) {
 			log.info("Ignore SELF messages");
 			return;

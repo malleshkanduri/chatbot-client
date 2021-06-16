@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class Story {
 	
 	String GREETING = "Hello %s. How can I help you?";
-	String BOT_QUESTION = "Hello %s. Would you be interested in watching a one minute video on reducting employee burnout?";
+	String BOT_QUESTION = "Hello %s. Would you be interested in watching a one minute video on reducing employee burnout?";
 	String EAP="EAP benefits are provided by Optum. The memeber services numbers is (877) 950-5075.\nIs there anything else I can help you with today?";
 	String[] eap = {"what","number", "eap?"};
 	List<String> greetList = Arrays.asList("hello","hey");
