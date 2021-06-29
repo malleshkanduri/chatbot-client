@@ -82,6 +82,6 @@ public class ChatUtil {
 	
 	public static String getFirstAndLastName(String personId) {
 		Person person = spark.people().path("/"+personId).get();
-		return person.getFirstName() + " " + person.getLastName();
+		return person.getFirstName();
 	}
 }

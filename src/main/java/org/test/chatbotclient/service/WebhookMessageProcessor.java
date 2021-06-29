@@ -56,14 +56,22 @@ public class WebhookMessageProcessor {
 		
  		String messageText = getMessageText(message.getData().getId());
  		
+ 		if (story.isThisThankYou(messageText)) {
+ 			String botQuestion = story.getBotQuestion(ChatUtil.getFirstAndLastName(message.getData().getPersonId()));
+			sendMessageToRoom(message.getData().getRoomId(), botQuestion);
+			return;
+ 		}
+ 		
  		if (story.isItGreetMessage(messageText)) {
  			sendMessageToRoom(message.getData().getRoomId(), 
  					story.getCustomGreetingMessage(ChatUtil.getFirstAndLastName(message.getData().getPersonId())));
  			return;
  		}
  		
+ 		if(story.processMessage(messageText) != null) {
  		sendMessageToRoom(message.getData().getRoomId(), 
  				story.processMessage(messageText));
+ 		}
 	}
 
 	private void sendMessageToRoom(String roomId, String botQuestion) {
